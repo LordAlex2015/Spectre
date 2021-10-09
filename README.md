@@ -6,7 +6,7 @@
 Version: **Alpha**
 
 ## Requirements
-- Redis
+- [Redis](https://redis.io/)
 - NodeJS 14 or higher
 - Typescript installed ( `npm i typescript -g` )
 
