@@ -1,0 +1,47 @@
+{
+  "mode": "normal",
+  "version": "beta",
+  "ignore_events": ["MESSAGE_DELETE","INTERACTION_CREATE"],
+  "redis": {
+    "host": "localhost",
+    "password": "root"
+  },
+  "discord": {
+    "token": "Bot Token",
+    "notified": [""],
+    "emergency_webhook": {
+      "token": "",
+      "id": ""
+    }
+  },
+  "custom": {
+    "embed_colors": {
+      "default": 5793266,
+      "danger": 15548997,
+      "success": 5763719,
+      "warning": 16705372,
+      "info": 5793266
+    },
+    "embed_icons": {
+      "danger": "https://i.arvix.ml/Spectre_Red.png",
+      "success": "https://i.arvix.ml/Spectre_Green.png",
+      "warning": "https://i.arvix.ml/Spectre_Yellow.png",
+      "info": ""
+    },
+    "text": {
+      "console": {
+        "start_menu": {
+          "redis_connected": "Connected to Redis Server!",
+          "connecting_to_discord": "Everything is ready, connecting to Discord..."
+        }
+      },
+      "embed": {
+        "danger_title": "Danger!",
+        "warning_title": "Warning!"
+      }
+    },
+    "embed_footer": {
+      "text": "Spectre System - {{VERSION}}"
+    }
+  }
+}

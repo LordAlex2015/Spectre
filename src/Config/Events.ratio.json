@@ -1,0 +1,10 @@
+{
+  "messageCreate": 1,
+  "messageUpdate": 1,
+  "messageDelete": 1,
+  "channelCreate": 5,
+  "channelDelete": 5,
+  "messagePin": 1,
+  "messageUnpin": 1,
+  "pinsUpdate": 1
+}
