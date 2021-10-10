@@ -3,6 +3,8 @@
 # Spectre
 *By ArviX#8443*
 
+[Discord Server](https://discord.gg/UvC633NBKS)
+
 Version: **Alpha**
 
 ## Requirements
@@ -19,24 +21,24 @@ Version: **Alpha**
 - Edit redis host informations
 
 ## Starting
-- `npm start` or `tsc && node dist/main`
+- `npm run` or `tsc && node dist/main`
 
 ## Compatibility
-- 6/15 events 
+- 9/15 events 
 - [X] messageCreate
-- [X] messageDelete
-- [ ] messageDeleteBulk
+- [X] messageDeleteBulk
 - [X] messageUpdate
 - [X] channelCreate
 - [X] channelDelete
 - [X] channelPinsUpdate
-- [ ] channelUpdate
+- [X] channelUpdate
 - [ ] guildBanAdd
 - [ ] guildBanRemove
 - [ ] guildMemberRemove
 - [ ] guildMemberUpdate
-- [ ] guildRoleCreate
-- [ ] guildRoleDelete
+- [X] guildRoleCreate
+- [ ] guildRoleUpdate
+- [X] guildRoleDelete
 - [ ] guildUpdate
 
 ## Plans
@@ -49,4 +51,5 @@ Version: **Alpha**
 - [ ] Better Redis utilisation
 - [ ] AntiFail System
 - [ ] Errors Catching
+- [ ] Update Reminder
 

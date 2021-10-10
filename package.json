@@ -4,7 +4,9 @@
   "description": "Spectre is a discord bot monitoring system",
   "main": "dist/main.js",
   "scripts": {
-    "test": "tsc && node dist/main"
+    "build": "tsc",
+    "start": "node dist/main",
+    "run": "tsc && node dist/main"
   },
   "repository": {
     "type": "git",

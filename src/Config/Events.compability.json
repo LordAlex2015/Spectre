@@ -6,5 +6,9 @@
   "CHANNEL_DELETE": "channelDelete",
   "MESSAGE_PIN": "messagePin",
   "MESSAGE_UNPIN": "messageUnpin",
-  "CHANNEL_PINS_UPDATE": "pinsUpdate"
+  "CHANNEL_PINS_UPDATE": "pinsUpdate",
+  "MESSAGE_DELETE_BULK": "bulkDelete",
+  "CHANNEL_UPDATE": "channelUpdate",
+  "GUILD_ROLE_CREATE": "guildRoleCreate",
+  "GUILD_ROLE_DELETE": "guildRoleDelete"
 }

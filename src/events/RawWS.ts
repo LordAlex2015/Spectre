@@ -47,32 +47,57 @@ class RawEvent extends DiscordEvent {
                 }
                 console.log(packet.t, "xx", typp)
                 if (log.actionType !== typp) return;
-                console.log((log.targetID !== (packet.d?.id || this.client.user.id)))
-                if ((log.targetID !== (packet.d?.id || this.client.user.id))) return;
+                let target = (packet.d?.id || this.client.user.id);
+                if(packet.t === "MESSAGE_DELETE_BULK") target = packet.d?.channel_id;
+                if(packet.t === "GUILD_ROLE_CREATE") target = packet.d?.role.id;
+                if(packet.t === "GUILD_ROLE_DELETE") target = packet.d?.role_id;
+                console.log((log.targetID !== target))
+                if ((log.targetID !== target)) return;
                 let data = [packet.d?.id, log.targetID, packet.d?.guild_id];
+                let id = packet.d?.id;
                 if (packet.t === "CHANNEL_CREATE" || packet.t === "CHANNEL_DELETE") {
                     data = [packet.d?.name, packet.d?.id, packet.d?.guild_id, packet.d?.type === 0 ? 'Text' : packet.d?.type, log.reason || "None"];
+                } else if (packet.t === "CHANNEL_UPDATE") {
+                    let updated = []
+                    console.log(log.after)
+                    console.log(log.before)
+                    if(log.after.name !== log.before.name) {
+                        updated.push("Name")
+                    }
+                    if(log.after.bitrate !== log.before.bitrate) {
+                        updated.push("Bitrate")
+                    }
+                    if(log.after.topic !== log.before.topic) {
+                        updated.push("Topic")
+                    }
+                    if(log.after.nsfw !== log.before.nsfw) {
+                        updated.push("NSFW")
+                    }
+                    if(log.after.rate_limit_per_user !== log.before.rate_limit_per_user) {
+                        updated.push("RateLimitPerUser")
+                    }
+                    if(log.after.parentID !== log.before.parentID) {
+                        updated.push("Parent")
+                    }
+                    data = [packet.d?.name, updated.join(', '), packet.d?.id, packet.d?.guild_id, packet.d?.type === 0 ? 'Text' : packet.d?.type, log.reason || "None"];
+                } else if(packet.t === "GUILD_ROLE_CREATE") {
+                    id = packet.d?.role.id
+                    data = [packet.d?.role.id, packet.d?.role.name,packet.d?.guild_id, log.reason || "None"]
+                }else if(packet.t === "GUILD_ROLE_DELETE") {
+                    id = packet.d?.role_id
+                    data = [packet.d?.role_id, log.before?.name,packet.d?.guild_id, log.reason || "None"]
                 } else if (packet.t === "CHANNEL_PINS_UPDATE") {
                     data = [log.message.id, packet.d?.channel_id, packet.d?.guild_id, log.reason || "None"];
+                } else if(packet.t === "MESSAGE_DELETE_BULK") {
+                    id = packet.d?.channel_id
+                    data = [packet.d?.ids.join(", "), packet.d?.channel_id, packet.d?.guild_id, log.reason || "None"];
                 }
-                if (log.channel) {
-                    // MEMBER_MOVE MESSAGE_DELETE/PIN/UNPIN
 
-                } else if (log.deleteMemberDays) {
-                    // MEMBER_PRUNE
-
-                } else if (log.member) {
-                    // CHANNEL_OVERWRITE_CREATE/UPDATE/DELETE
-
-                } else if (log.role) {
-                    // CHANNEL_OVERWRITE_CREATE/UPDATE/DELETE
-
-                }
                 setTimeout(async () => {
                     if (!Object.keys(events).includes(packet.t)) {
                         if (this.client.config.mode === "debug") console.log(red("[Spectre]"), "Unknown event:", packet.t)
                     } else {
-                        await this.client.Verificator.handle(Object.entries(events).find(k => k[0] === packet.t)[1], packet.d?.id, data)
+                        await this.client.Verificator.handle(Object.entries(events).find(k => k[0] === packet.t)[1], id, data)
                     }
                 }, 3001)
             }

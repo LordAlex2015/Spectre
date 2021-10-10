@@ -10,6 +10,10 @@ export default class Verificator {
     }
 
     async handle(eventType: string, id: string, args: any[]) {
+        if(await this.client.Redis.get(`SpectreSystem:XX:${id}`)) {
+            if(this.client.config.mode === "debug") console.log(green("[Spectre]"),"Action Clear", await this.client.Redis.get(`SpectreSystem:XX:${id}`))
+            return;
+        }
         if(!await this.client.Redis.get(`SpectreSystem:${eventType}:${id}`)) {
             // Action unauthorized
             let title = "An unauthorized action has been detected.";
@@ -37,7 +41,29 @@ export default class Verificator {
                         value: `\`\`\`css\nMessage ID: ${args[0]}\nChannel ID: ${args[1]}\nGuild ID: ${args[2]}\`\`\``
                     });
                     break;
+                case 'bulkDelete':
+                    description = `<#${args[1]}>`
+                    fields.push({
+                        name: "👥・Identity:",
+                        value: `\`\`\`css\nMessage IDs: ${args[0]}\nChannel ID: ${args[1]}\nGuild ID: ${args[2]}\nReason: ${args[3]}\`\`\``
+                    });
+                    break;
+                case 'channelUpdate':
+                    description = `<#${args[2]}>`
+                    fields.push({
+                        name: "👥・Identity:",
+                        value: `\`\`\`css\nName: ${args[0]}\nUpdated: ${args[1]}\nType: ${args[4]}\nChannel ID: ${args[2]}\nGuild ID: ${args[3]}\nReason: ${args[5]}\`\`\``
+                    });
+                    break;
+                case 'guildRoleCreate':
+                case 'guildRoleDelete':
+                    fields.push({
+                        name: "👥・Identity:",
+                        value: `\`\`\`css\nRole ID: ${args[0]}\nName: ${args[1]}\nGuild ID: ${args[2]}\nReason: ${args[3]}\`\`\``
+                    });
+                    break;
                 default:
+                    description = `<#${args[1]}>`
                     fields.push({
                         name: "👥・Identity:",
                         value: `\`\`\`css\nName: ${args[0]}\nType: ${args[3]}\nChannel ID: ${args[1]}\nGuild ID: ${args[2]}\nReason: ${args[4]}\`\`\``

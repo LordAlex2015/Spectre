@@ -6,5 +6,10 @@
   "channelDelete": 5,
   "messagePin": 1,
   "messageUnpin": 1,
-  "pinsUpdate": 1
+  "pinsUpdate": 1,
+  "bulkDelete": 1,
+  "channelUpdate": 2,
+  "guildRoleCreate": 5,
+  "guildRoleDelete": 5
+
 }
