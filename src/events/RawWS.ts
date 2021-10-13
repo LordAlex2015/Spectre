@@ -24,7 +24,7 @@ class RawEvent extends DiscordEvent {
                     await this.client.Verificator.handle(Object.entries(events).find(k => k[0] === packet.t)[1], packet.d?.id, [packet.d?.id, packet.d?.channel_id, packet.d?.guild_id])
                 }
             }, 3001)
-        } else if (!packet.d?.author?.id && !packet.d?.user?.id) {
+        } else if(packet.t !== "MESSAGE_CREATE" && packet.t !== "MESSAGE_UPDATE")  {
             if (packet.d?.guild_id) {
                 const logs = await this.client.getGuildAuditLog(packet.d?.guild_id, {
                     actionType: (Object.entries(audit_events).find(k => k[0] === packet.t) || [null, null])[1],
@@ -36,7 +36,9 @@ class RawEvent extends DiscordEvent {
                 console.log(logs)
                 if (!log) return;
                 console.log("Log Exist for", packet.t)
-                if (logs.users[0].id !== this.client.user.id) return;
+                let usIndex = 0;
+                if(packet.t === "GUILD_BAN_ADD" || packet.t === "GUILD_BAN_REMOVE") usIndex = 1;
+                if (logs.users[usIndex].id !== this.client.user.id) return;
                 let typp = (Object.entries(audit_events).find(k => k[0] === packet.t) || [null, null])[1];
                 if(typp === null && packet.t === "CHANNEL_PINS_UPDATE") {
                     if(packet.d.last_pin_message === null) {
@@ -51,11 +53,15 @@ class RawEvent extends DiscordEvent {
                 if(packet.t === "MESSAGE_DELETE_BULK") target = packet.d?.channel_id;
                 if(packet.t === "GUILD_ROLE_CREATE") target = packet.d?.role.id;
                 if(packet.t === "GUILD_ROLE_DELETE") target = packet.d?.role_id;
+                if(packet.t === "GUILD_BAN_ADD" || packet.t === "GUILD_BAN_REMOVE") target = packet.d?.user.id;
                 console.log((log.targetID !== target))
                 if ((log.targetID !== target)) return;
                 let data = [packet.d?.id, log.targetID, packet.d?.guild_id];
                 let id = packet.d?.id;
-                if (packet.t === "CHANNEL_CREATE" || packet.t === "CHANNEL_DELETE") {
+                if(packet.t === "GUILD_BAN_ADD" || packet.t === "GUILD_BAN_REMOVE") {
+                    data = [packet.d?.user.id, packet.d?.guild_id, log.reason || "None"];
+                    id = packet.d?.user.id
+                } else if (packet.t === "CHANNEL_CREATE" || packet.t === "CHANNEL_DELETE") {
                     data = [packet.d?.name, packet.d?.id, packet.d?.guild_id, packet.d?.type === 0 ? 'Text' : packet.d?.type, log.reason || "None"];
                 } else if (packet.t === "CHANNEL_UPDATE") {
                     let updated = []

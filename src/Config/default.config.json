@@ -2,6 +2,11 @@
   "mode": "normal",
   "version": "beta",
   "ignore_events": ["MESSAGE_DELETE","INTERACTION_CREATE"],
+  "settings": {
+    "regen_token": false,
+    "notify_discord": true,
+    "regen_on": "DANGER"
+  },
   "redis": {
     "host": "localhost",
     "password": "root"
@@ -13,6 +18,9 @@
       "token": "",
       "id": ""
     }
+  },
+  "github": {
+    "token": ""
   },
   "custom": {
     "embed_colors": {

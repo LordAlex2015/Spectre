@@ -10,5 +10,7 @@
   "MESSAGE_DELETE_BULK": "bulkDelete",
   "CHANNEL_UPDATE": "channelUpdate",
   "GUILD_ROLE_CREATE": "guildRoleCreate",
-  "GUILD_ROLE_DELETE": "guildRoleDelete"
+  "GUILD_ROLE_DELETE": "guildRoleDelete",
+  "GUILD_BAN_ADD": "guildBanAdd",
+  "GUILD_BAN_REMOVE": "guildBanRemove"
 }

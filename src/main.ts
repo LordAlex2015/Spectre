@@ -4,8 +4,8 @@ import * as config from '../config.json';
 import {blue} from 'colors';
 import RedisClient from './Systems/Redis';
 import EventsManager from "./Structure/EventsManager";
-import * as config2 from '../src/Config/default.config.json';
 import Verificator from "./Systems/Verificator";
+import parseText from "./Systems/TextParser";
 
 export default class Spectre extends Eris.Client {
     config: SpectreConfig;
@@ -29,7 +29,11 @@ export default class Spectre extends Eris.Client {
         } catch (e: any) {
             throw e
         }
-        this.connect();
+        try {
+            this.connect()
+        } catch(e) {
+            console.error(e)
+        }
     }
 
     init(): any {
@@ -41,16 +45,22 @@ export default class Spectre extends Eris.Client {
         }
     }
 
-    prepare() {
-        this.config.custom.embed_footer = {text: `Spectre System - ${this.config.version}`};
-        if (this.config.discord.emergency_webhook.token.length !== 68) throw new Error("Invalid Emergency Webhook token!");
-        if (this.config.discord.emergency_webhook.id.length !== 18) throw new Error("Invalid Emergency Webhook id!");
-        if (this.config.custom.text.console.start_menu.connecting_to_discord === "") {
-            console.error("Invalid Config file, loading default");
-            const discord = this.config.discord;
-            this.config = config2;
-            this.config.discord = discord;
+    async prepare() {
+        if(!this.config.settings.notify_discord /*&& !this.config.settings.regen_token */) {
+            throw new Error("Discord Notifications are disabled, Spectre is useless. Stopping...");
         }
+        if (this.config.custom.text.console.start_menu.connecting_to_discord === "") {
+            throw new Error("Invalid Config File. Stopping...");
+        }
+        if(this.config.settings.regen_token && this.config.github.token.length !== 255) {
+            throw new Error("Invalid Github Access Token. Stopping...");
+        }
+        if(!['WARNING','DANGER','NOTHING'].includes(this.config.settings.regen_on)) {
+            throw new Error("Invalid 'regen_on' param. Stopping...");
+        }
+        if (this.config.discord.emergency_webhook.token.length !== 68 && this.config.settings.notify_discord) throw new Error("Invalid Emergency Webhook token.");
+        if (this.config.discord.emergency_webhook.id.length !== 18 && this.config.settings.notify_discord) throw new Error("Invalid Emergency Webhook id.");
+        this.config.custom.embed_footer = {text: await parseText(this, this.config.custom.embed_footer.text)};
     }
 
 }
@@ -59,8 +69,10 @@ export interface SpectreConfig {
     mode: string;
     version: string;
     "ignore_events": string[];
+    settings: {regen_token: boolean; notify_discord: boolean; regen_on: string};
     redis: { host: string, password: string };
     discord: { token: string, notified: string[], emergency_webhook: { token: string, id: string } };
+    github: {token: string};
     custom: {
         embed_colors: { default: number, danger: number, success: number, warning: number, info: number },
         embed_icons: { danger: string, success: string, warning: string, info: string },
@@ -82,3 +94,7 @@ try {
 } catch(e) {
     console.error(e)
 }
+
+process.on("uncaughtException", (e) => {
+    console.error(e)
+})

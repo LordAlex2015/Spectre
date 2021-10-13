@@ -1,15 +1,17 @@
 {
-  "messageCreate": 1,
-  "messageUpdate": 1,
-  "messageDelete": 1,
-  "channelCreate": 5,
-  "channelDelete": 5,
-  "messagePin": 1,
-  "messageUnpin": 1,
-  "pinsUpdate": 1,
-  "bulkDelete": 1,
-  "channelUpdate": 2,
-  "guildRoleCreate": 5,
-  "guildRoleDelete": 5
+  "messageCreate": 5,
+  "messageUpdate": 5,
+  "messageDelete": 5,
+  "channelCreate": 1,
+  "channelDelete": 1,
+  "messagePin": 5,
+  "messageUnpin": 5,
+  "pinsUpdate": 5,
+  "bulkDelete": 5,
+  "channelUpdate": 3,
+  "guildRoleCreate": 1,
+  "guildRoleDelete": 1,
+  "guildBanAdd": 1,
+  "guildBanRemove": 2
 
 }

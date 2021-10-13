@@ -19,12 +19,15 @@ Version: **Alpha**
 - Add the notification webhook
 - Add the notified people
 - Edit redis host informations
+- Add Github access token, to regen the bot token in need
+- Set `regen_token` on `true`
+- Edit `src/Config/Events.ratio.json` **(The ratio is the number of times the WARNING event for a specific event must be triggered before triggering the danger event)**
 
 ## Starting
 - `npm run` or `tsc && node dist/main`
 
 ## Compatibility
-- 9/15 events 
+- 11/15 events 
 - [X] messageCreate
 - [X] messageDeleteBulk
 - [X] messageUpdate
@@ -32,8 +35,8 @@ Version: **Alpha**
 - [X] channelDelete
 - [X] channelPinsUpdate
 - [X] channelUpdate
-- [ ] guildBanAdd
-- [ ] guildBanRemove
+- [X] guildBanAdd
+- [X] guildBanRemove
 - [ ] guildMemberRemove
 - [ ] guildMemberUpdate
 - [X] guildRoleCreate
@@ -44,12 +47,12 @@ Version: **Alpha**
 ## Plans
 - [ ] Customization
 - [X] (Alpha) Customization
-- [ ] Token Regeneration
-- [ ] Sensibility Correction
+- [X] Token Regeneration
+- [X] Sensibility Correction
 - [ ] Telegram Notifications
 - [X] Discord Notifications
 - [ ] Better Redis utilisation
-- [ ] AntiFail System
-- [ ] Errors Catching
+- [X] (Alpha) AntiFail System
+- [X] (Not Finished) Errors Catching
 - [ ] Update Reminder
 
