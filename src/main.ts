@@ -6,6 +6,8 @@ import RedisClient from './Systems/Redis';
 import EventsManager from "./Structure/EventsManager";
 import Verificator from "./Systems/Verificator";
 import parseText from "./Systems/TextParser";
+import {sendWebhook} from "./Systems/Answer";
+import {genDiscordAnswer} from "./Systems/Action";
 
 export default class Spectre extends Eris.Client {
     config: SpectreConfig;
@@ -40,6 +42,7 @@ export default class Spectre extends Eris.Client {
         try {
             this.prepare()
             this.events.loadEvent();
+            this._processEvent();
         } catch (e) {
             throw new Error(`An error occurred during initialization: ${e}`)
         }
@@ -63,6 +66,11 @@ export default class Spectre extends Eris.Client {
         this.config.custom.embed_footer = {text: await parseText(this, this.config.custom.embed_footer.text)};
     }
 
+    _processEvent() {
+        process.on('exit', () => {
+            sendWebhook(this, this.config, genDiscordAnswer(this, "DANGER", ["Spectre is shutting down.", "Someone is shutting down Spectre.", []]));
+        })
+    }
 }
 
 export interface SpectreConfig {

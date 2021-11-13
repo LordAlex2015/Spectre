@@ -55,5 +55,5 @@ Version: **Alpha**
 - [X] (Alpha) AntiFail System
 - [X] (Not Finished) Errors Catching
 - [ ] Update Reminder
-- [ ] Notify on shutdown
+- [X] Notify on shutdown
 
